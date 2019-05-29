@@ -1,11 +1,22 @@
 import json
+import sys
 from collections import Counter
 
-val_path = "../data-processing/selection_val.jsonl"
-train_path = "../data-processing/selection_train.jsonl"
 
-val_out = open("crf_val.tsv",'w')
-train_out = open("crf_train.tsv",'w')
+if len(sys.argv) < 3:
+    print("Usage: %s <selection training JSONL file> <selection validation JSONL file> [<output files prefix>]" % sys.argv[0], file=sys.stderr)
+    sys.exit()
+
+val_path = sys.argv[2]
+train_path = sys.argv[1]
+
+if len(sys.argv) >= 4:
+    prefix = sys.argv[3]
+else:
+    prefix = "crf"
+
+val_out = open(prefix+"_val.tsv",'w')
+train_out = open(prefix+"_train.tsv",'w')
 
 for path, out in [(val_path, val_out), (train_path, train_out)]:
     seqs = []
